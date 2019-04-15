@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<windows.h>
+#define NULL 0
 int i,j;
 int main_exit;
 void menu();
@@ -27,14 +28,12 @@ float interest(float t,float amount,int rate)
     float SI;
     SI=(rate*t*amount)/100.0;
     return (SI);
-
 }
 void fordelay(int j)
 {   int i,k;
     for(i=0;i<j;i++)
          k=i;
 }
-
 void new_acc()
 
 {
@@ -47,8 +46,9 @@ void new_acc()
     printf("\t\t\t\xB2\xB2\xB2\ ADD RECORD  \xB2\xB2\xB2\xB2");
     printf("\n\n\nEnter today's date(mm/dd/yyyy):");
     scanf("%d/%d/%d",&add.deposit.month,&add.deposit.day,&add.deposit.year);
-    printf("\nEnter the account number:");
-    scanf("%d",&check.acc_no);
+    //printf("\nEnter the account number:");
+    //scanf("%d",&check.acc_no);
+    check.acc_no=rand()%(9999999999-1000000000+1)+1000000000;
     while(fscanf(ptr,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",&add.acc_no,add.name,&add.dob.month,&add.dob.day,&add.dob.year,&add.age,add.address,add.adhaar,&add.phone,add.acc_type,&add.amt,&add.deposit.month,&add.deposit.day,&add.deposit.year)!=EOF)
     {
         if (check.acc_no==add.acc_no)
@@ -69,8 +69,16 @@ void new_acc()
     scanf("%s",add.address);
     printf("\nEnter the adhaar number:");
     scanf("%s",add.adhaar);
-    printf("\nEnter the phone number: ");
-    scanf("%lf",&add.phone);
+    double phone;
+    J:printf("\nEnter the phone number: ");
+    scanf("%lf",&phone);
+    if(phone>=1000000000&&phone<=9999999999)
+        add.phone=phone;
+    else
+        {
+        printf("Invalid Number!Try Again\n");
+    goto J;
+        }
     printf("\nEnter the amount to deposit:");
     scanf("%f",&add.amt);
     printf("\nType of account:\n\t#Saving\n\t#Current\n\t#Fixed1(for 1 year)\n\t#Fixed2(for 2 years)\n\t#Fixed3(for 3 years)\n\n\tEnter your choice:");
@@ -109,18 +117,18 @@ void view_list()
         {printf("\n\nPassword Match!\nLOADING");
         for(i=0;i<=6;i++)
         {
-            fordelay(1000000);
+            fordelay(100000000);
             printf(".");
         }
     FILE *view;
     view=fopen("record.dat","r");
     int test=0;
     system("cls");
-    printf("\nACC. NO.\tNAME\t\t\tADDRESS\t\t\tPHONE\n");
+    printf("\nACC. NO.\t      NAME\t\tADDRESS\t\t\tPHONE\n");
 
     while(fscanf(view,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d",&add.acc_no,add.name,&add.dob.month,&add.dob.day,&add.dob.year,&add.age,add.address,add.adhaar,&add.phone,add.acc_type,&add.amt,&add.deposit.month,&add.deposit.day,&add.deposit.year)!=EOF)
        {
-           printf("\n%6d\t %10s\t\t\t%10s\t\t%.0lf",add.acc_no,add.name,add.address,add.phone);
+           printf("\n%6d\t %10s     \t%10s      \t%.0lf",add.acc_no,add.name,add.address,add.phone);
            test++;
        }
 
@@ -359,11 +367,20 @@ void erase(void)
               scanf("%d",&main_exit);
 
                  if (main_exit==1)
+                    {
+                    system("cls");
                     menu();
+                    }
                 else if (main_exit==2)
+                    {
+                    system("cls");
                     close();
+                    }
                 else if(main_exit==0)
+                    {
+                    system("cls");
                     erase();
+                    }
                 else
                     {printf("\nInvalid!\a");
                     goto C;
@@ -538,7 +555,7 @@ void see(void)
 void close(void)
 {
      SetConsoleTextAttribute (GetStdHandle(STD_OUTPUT_HANDLE),14);
-    printf("\n\n\n\nthis small project is made by ashutosh shrimal");
+    printf("\n\n\n\nthis banking project is made by ashutosh shrimal");
 }
 
 
@@ -576,13 +593,14 @@ int main()
     SetConsoleTextAttribute (GetStdHandle(STD_OUTPUT_HANDLE),3);
     char pass[10],password[10]="aashujain";
     int i=0;
+    srand(time(NULL));
     printf("\n\n\t\tEnter the password to login:");
     scanf("%s",pass);
     if (strcmp(pass,password)==0)
         {printf("\n\nPassword Match!\nLOADING");
         for(i=0;i<=6;i++)
         {
-            fordelay(1000000);
+            fordelay(100000000);
             printf(".");
         }
                 system("cls");
