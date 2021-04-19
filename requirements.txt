@@ -1,2 +1,0 @@
-*C compiler
-*windows operating system
